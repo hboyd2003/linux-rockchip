@@ -1317,14 +1317,14 @@ static int rockchip_i2s_tdm_set_fmt(struct snd_soc_dai *cpu_dai,
 		}
 
 		mask = I2S_TXCR_CSR_MASK;
-		ret = rockchip_i2s_tdm_parse_channels(i2s_tdm, SNDRV_PCM_STREAM_PLAYBACK,
+		int chn_ret = rockchip_i2s_tdm_parse_channels(i2s_tdm, SNDRV_PCM_STREAM_PLAYBACK,
 						      i2s_tdm->tdm_slots);
-		if (ret < 0) {
+		if (chn_ret < 0) {
 			dev_err(i2s_tdm->dev, "Invalid slots: %d\n", i2s_tdm->tdm_slots);
-			return ret;
+			return chn_ret;
 		}
 
-		val = ret;
+		val = chn_ret;
 		regmap_update_bits(i2s_tdm->regmap, I2S_TXCR, mask, val);
 		regmap_update_bits(i2s_tdm->regmap, I2S_RXCR, mask, val);
 	}
